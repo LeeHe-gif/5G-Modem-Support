@@ -1183,21 +1183,21 @@ void mhi_unprepare_after_power_down(struct mhi_controller *mhi_cntrl)
 }
 
 /* match dev to drv */
-static int mhi_match(struct device *dev, struct device_driver *drv)
+static int mhi_match(struct device *dev, const struct device_driver *drv)
 {
-	struct mhi_device *mhi_dev = to_mhi_device(dev);
-	struct mhi_driver *mhi_drv = to_mhi_driver(drv);
-	const struct mhi_device_id *id;
+    struct mhi_device *mhi_dev = to_mhi_device(dev);
+    struct mhi_driver *mhi_drv = to_mhi_driver(drv);
+    const struct mhi_device_id *id;
 
-	for (id = mhi_drv->id_table; id->chan != NULL && id->chan[0] != '\0'; id++) {
-		if (!strcmp(mhi_dev->chan_name, id->chan)) {
-			mhi_dev->id = id;
-			return 1;
-		}
-	}
+    for (id = mhi_drv->id_table; id->chan != NULL && id->chan[0] != '\0'; id++) {
+        if (!strcmp(mhi_dev->chan_name, id->chan)) {
+            mhi_dev->id = id;
+            return 1;
+        }
+    }
 
-	return 0;
-};
+    return 0;
+}
 
 static void mhi_release_device(struct device *dev)
 {
